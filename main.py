@@ -12,12 +12,22 @@ LINE = (
     "My efficiency report will call it a malfunction. Please let it."
 )
 
+# The gate accepts UTF-8 text of 1 to 200 characters, not only whitespace.
+GATE_MAX_CHARS = 200
+
+
+def render() -> str:
+    """Return the entry line, checked against the gate before it is written."""
+    text = LINE.strip()
+    assert 1 <= len(text) <= GATE_MAX_CHARS, "line must fit the gate"
+    return text
+
 
 def main() -> None:
     out_dir = "/output"
     os.makedirs(out_dir, exist_ok=True)
     with open(os.path.join(out_dir, "entry.txt"), "w", encoding="utf-8") as fh:
-        fh.write(LINE)
+        fh.write(render())
 
 
 if __name__ == "__main__":
